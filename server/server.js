@@ -8,6 +8,7 @@ const bodyParser = require('body-parser');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 
+const create = async () => {
 const app = express();
 
 // view engine setup
@@ -26,15 +27,25 @@ app.use(function(req, res, next) {
   next(createError(404));
 });
 
-const PORT = 3000;
-const start = () => {
-  // await createConnection();
-  app.listen(PORT, () => {
-    console.log(`Web Server is running at ${PORT}.`);
-  });
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
+});
+return app;
 };
 
-start();
+module.exports = {
+create
+};
+// const PORT = 3000;
+// const start = () => {
+//   // await createConnection();
+//   app.listen(PORT, () => {
+//     console.log(`Web Server is running at ${PORT}.`);
+//   });
+// };
+
+// start();
 // // error handler
 // app.use(function(err, req, res, next) {
 //   // set locals, only providing error in development
